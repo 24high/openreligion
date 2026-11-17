@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Teilnehmer:in mit Stimmen",
+  "description": "Eine Datei pro Person: data/participants/<login>.json. CI erlaubt Änderungen nur durch die Person selbst (PR-Autor == Dateiname). Achtung: Der Inhalt ist öffentlich und kann religiöse Überzeugungen offenlegen (DSGVO Art. 9).",
+  "type": "object",
+  "required": ["login", "consent", "votes"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "login": { "$ref": "common.schema.json#/$defs/login" },
+    "demo": { "description": "Beispieldatensatz, keine reale Person", "type": "boolean" },
+    "consent": {
+      "type": "object",
+      "required": ["public_participation", "date"],
+      "additionalProperties": false,
+      "properties": {
+        "public_participation": {
+          "description": "Ausdrückliche Einwilligung, dass Zugehörigkeit und Stimmen öffentlich einsehbar sind",
+          "const": true
+        },
+        "date": { "$ref": "common.schema.json#/$defs/date" }
+      }
+    },
+    "affiliation": {
+      "description": "Freiwillig. Bestimmt die Gruppe für die Brücken-Konsensberechnung. Ohne Angabe zählt die Stimme nur in der Gesamtsumme.",
+      "type": "object",
+      "required": ["tradition"],
+      "additionalProperties": false,
+      "properties": {
+        "tradition": { "$ref": "common.schema.json#/$defs/traditionId" }
+      }
+    },
+    "votes": {
+      "type": "object",
+      "propertyNames": { "$ref": "common.schema.json#/$defs/votableId" },
+      "additionalProperties": { "$ref": "#/$defs/vote" }
+    }
+  },
+  "$defs": {
+    "vote": {
+      "description": "Zwei getrennte Achsen: stance = persönliche Zustimmung; accuracy = ist die Darstellung sachlich korrekt (unabhängig davon, ob man sie teilt)?",
+      "type": "object",
+      "additionalProperties": false,
+      "minProperties": 1,
+      "properties": {
+        "stance": { "enum": ["agree", "disagree", "pass"] },
+        "accuracy": { "enum": ["accurate", "inaccurate", "unsure"] },
+        "date": { "$ref": "common.schema.json#/$defs/date" }
+      },
+      "anyOf": [{ "required": ["stance"] }, { "required": ["accuracy"] }]
+    }
+  }
+}

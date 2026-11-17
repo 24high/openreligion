@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Auslegung (einer Textstelle oder Aussage)",
+  "description": "Konkurrierende Auslegungen desselben Ziels werden gegeneinander abgestimmt. Datei: data/interpretations/<pfad>.md",
+  "type": "object",
+  "required": ["id", "type", "target", "perspective", "statement", "review_status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^interpretation:[a-z0-9]+(?:-[a-z0-9]+)*(?:/[a-z0-9]+(?:-[a-z0-9]+)*)*$" },
+    "type": { "const": "interpretation" },
+    "target": {
+      "description": "Ausgelegte Textstelle oder Aussage",
+      "anyOf": [
+        { "$ref": "common.schema.json#/$defs/passageRef" },
+        { "$ref": "common.schema.json#/$defs/claimId" }
+      ]
+    },
+    "tradition": {
+      "description": "Tradition der auslegenden Gemeinschaft (Pflicht bei perspective=internal)",
+      "$ref": "common.schema.json#/$defs/traditionId"
+    },
+    "perspective": { "enum": ["internal", "external", "scholarly"] },
+    "school": { "description": "Schule, Autor:in oder Strömung, auf die die Auslegung zurückgeht", "$ref": "common.schema.json#/$defs/langText" },
+    "period": { "description": "Zeitraum, z. B. '4. Jh.' oder 'Gegenwart'", "type": "string" },
+    "statement": { "$ref": "common.schema.json#/$defs/langText" },
+    "sources": { "$ref": "common.schema.json#/$defs/sources" },
+    "relations": { "$ref": "common.schema.json#/$defs/relations" },
+    "tags": { "$ref": "common.schema.json#/$defs/tags" },
+    "review_status": { "$ref": "common.schema.json#/$defs/reviewStatus" },
+    "superseded_by": { "type": "string", "pattern": "^interpretation:" }
+  },
+  "if": { "properties": { "perspective": { "const": "internal" } } },
+  "then": { "required": ["tradition"] }
+}

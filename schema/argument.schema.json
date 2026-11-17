@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Argument (Pro/Contra zu einem abstimmbaren Element)",
+  "description": "Ergebnis einer Diskussion in strukturierter Form. Argumente können sich auch auf Argumente beziehen (Argumentbaum). Datei: data/arguments/<pfad>.md",
+  "type": "object",
+  "required": ["id", "type", "target", "stance", "statement", "review_status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^argument:[a-z0-9]+(?:-[a-z0-9]+)*(?:/[a-z0-9]+(?:-[a-z0-9]+)*)*$" },
+    "type": { "const": "argument" },
+    "target": { "$ref": "common.schema.json#/$defs/votableId" },
+    "stance": { "enum": ["pro", "contra"] },
+    "statement": { "$ref": "common.schema.json#/$defs/langText" },
+    "author": { "$ref": "common.schema.json#/$defs/login" },
+    "discussion_url": { "description": "Link zur freien Diskussion (z. B. GitHub Discussion), aus der das Argument stammt", "type": "string", "pattern": "^https?://" },
+    "sources": { "$ref": "common.schema.json#/$defs/sources" },
+    "relations": { "$ref": "common.schema.json#/$defs/relations" },
+    "tags": { "$ref": "common.schema.json#/$defs/tags" },
+    "review_status": { "$ref": "common.schema.json#/$defs/reviewStatus" },
+    "superseded_by": { "type": "string", "pattern": "^argument:" }
+  }
+}

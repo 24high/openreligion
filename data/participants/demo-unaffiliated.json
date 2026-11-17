@@ -1,0 +1,19 @@
+{
+  "$schema": "../../schema/participant.schema.json",
+  "login": "demo-unaffiliated",
+  "demo": true,
+  "consent": {
+    "public_participation": true,
+    "date": "2026-11-17"
+  },
+  "votes": {
+    "consensus:ethics/golden-rule": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "consensus:theology/nature-of-the-divine": {
+      "stance": "disagree",
+      "date": "2026-11-17"
+    }
+  }
+}

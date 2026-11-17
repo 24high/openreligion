@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Textabschnitt (Volltext einer Ausgabe, z. B. ein Kapitel)",
+  "description": "Datei: data/texts/<work-slug>/<edition>/<division>.json. Ein Segment = kleinste zitierbare Einheit (Vers, Aya, Abschnitt).",
+  "type": "object",
+  "required": ["type", "work", "edition", "lang", "division", "complete", "segments"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": { "type": "string" },
+    "type": { "const": "text" },
+    "work": { "$ref": "common.schema.json#/$defs/workId" },
+    "edition": { "$ref": "common.schema.json#/$defs/slug" },
+    "lang": { "$ref": "common.schema.json#/$defs/langTag" },
+    "division": { "description": "Locus-Präfix dieser Datei, z. B. Matt.7", "type": "string" },
+    "complete": { "description": "false, wenn nur ausgewählte Segmente erfasst sind", "type": "boolean" },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["locus", "text"],
+        "additionalProperties": false,
+        "properties": {
+          "locus": { "description": "Voller Locus (nicht nur die Versnummer), damit jede Zeile allein auffindbar ist", "type": "string" },
+          "text": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  }
+}

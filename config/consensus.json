@@ -1,0 +1,19 @@
+{
+  "groups": [
+    "tradition:monotheism/divine",
+    "tradition:monotheism/adversary",
+    "tradition:polytheism",
+    "tradition:other",
+    "tradition:science"
+  ],
+  "min_group_votes": 2,
+  "min_counted_groups": 2,
+  "thresholds": {
+    "consensus": 0.7,
+    "converging": 0.5,
+    "polarized_high": 0.7,
+    "polarized_low": 0.3,
+    "rejected": 0.3
+  },
+  "_comment": "min_group_votes=2 ist ein Demo-Wert. Für den Echtbetrieb >= 10 empfohlen. Scores sind Laplace-geglättet: (agree+1)/(agree+disagree+2)."
+}

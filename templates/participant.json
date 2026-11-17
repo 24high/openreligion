@@ -1,0 +1,10 @@
+{
+  "$schema": "../../schema/participant.schema.json",
+  "login": "<dein-github-login>",
+  "consent": { "public_participation": true, "date": "YYYY-MM-DD" },
+  "affiliation": { "tradition": "tradition:<pfad>" },
+  "votes": {
+    "consensus:ethics/golden-rule": { "stance": "agree", "date": "YYYY-MM-DD" },
+    "claim:christianity/trinity": { "accuracy": "accurate", "date": "YYYY-MM-DD" }
+  }
+}

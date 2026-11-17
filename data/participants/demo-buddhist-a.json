@@ -1,0 +1,38 @@
+{
+  "$schema": "../../schema/participant.schema.json",
+  "login": "demo-buddhist-a",
+  "demo": true,
+  "consent": {
+    "public_participation": true,
+    "date": "2026-11-17"
+  },
+  "affiliation": {
+    "tradition": "tradition:other/buddhism"
+  },
+  "votes": {
+    "argument:ethics/golden-rule/contra-different-grounds": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "claim:buddhism/no-creator-god": {
+      "accuracy": "accurate",
+      "date": "2026-11-17"
+    },
+    "consensus:ethics/golden-rule": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "consensus:theology/nature-of-the-divine": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "interpretation:bible/matt-7-12/equivalent-forms": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "interpretation:bible/matt-7-12/positive-duty": {
+      "stance": "disagree",
+      "date": "2026-11-17"
+    }
+  }
+}

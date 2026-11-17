@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Aussage (Lehrsatz, Befund, Position)",
+  "description": "Eine Aussage ist immer einer Tradition zugeschrieben und nie eine Tatsachenbehauptung der Plattform: 'Laut <tradition> gilt: <statement>'. Datei: data/claims/<pfad>.md",
+  "type": "object",
+  "required": ["id", "type", "tradition", "perspective", "claim_type", "epistemic_basis", "statement", "review_status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "common.schema.json#/$defs/claimId" },
+    "type": { "const": "claim" },
+    "tradition": { "$ref": "common.schema.json#/$defs/traditionId" },
+    "perspective": {
+      "description": "Wer spricht? internal = Selbstbeschreibung der Tradition; external = Beschreibung durch Außenstehende; scholarly = religions-/fachwissenschaftliche Beschreibung",
+      "enum": ["internal", "external", "scholarly"]
+    },
+    "claim_type": {
+      "description": "descriptive = was ist/wird gelehrt; normative = was soll man tun; metaphysical = über Transzendentes; empirical = prüfbar; historical = über Vergangenes",
+      "enum": ["descriptive", "normative", "metaphysical", "empirical", "historical"]
+    },
+    "epistemic_basis": {
+      "description": "Worauf stützt sich die Aussage?",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["scripture", "tradition", "reason", "experience", "empirical"] }
+    },
+    "statement": { "$ref": "common.schema.json#/$defs/langText" },
+    "sources": { "$ref": "common.schema.json#/$defs/sources" },
+    "evidence": {
+      "description": "Pflicht bei empirischer Grundlage.",
+      "type": "object",
+      "required": ["level"],
+      "additionalProperties": false,
+      "properties": {
+        "level": {
+          "description": "established = breiter Fachkonsens; supported = gut belegt; preliminary = vorläufig; contested = fachlich umstritten; refuted = widerlegt",
+          "enum": ["established", "supported", "preliminary", "contested", "refuted"]
+        },
+        "note": { "$ref": "common.schema.json#/$defs/langText" }
+      }
+    },
+    "relations": { "$ref": "common.schema.json#/$defs/relations" },
+    "tags": { "$ref": "common.schema.json#/$defs/tags" },
+    "review_status": { "$ref": "common.schema.json#/$defs/reviewStatus" },
+    "superseded_by": { "$ref": "common.schema.json#/$defs/claimId" }
+  },
+  "if": { "properties": { "epistemic_basis": { "contains": { "const": "empirical" } } } },
+  "then": { "required": ["evidence", "sources"] }
+}

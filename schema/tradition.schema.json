@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Tradition (Knoten der Religionsschicht)",
+  "description": "Kategorie (Strukturknoten wie Monotheismus), Tradition (Religion), Strömung (Konfession) oder Schule. Datei: data/traditions/<pfad>.md",
+  "type": "object",
+  "required": ["id", "type", "kind", "name", "review_status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "$ref": "common.schema.json#/$defs/traditionId" },
+    "type": { "const": "tradition" },
+    "kind": {
+      "description": "category = Strukturknoten der Religionsschicht; tradition = Religion; branch = Strömung/Konfession; school = Schule/Rechtsschule/Lehrrichtung",
+      "enum": ["category", "tradition", "branch", "school"]
+    },
+    "name": { "$ref": "common.schema.json#/$defs/langText" },
+    "summary": { "$ref": "common.schema.json#/$defs/langText" },
+    "parent": {
+      "description": "Primäre Einordnung im Baum. Pflicht außer für Wurzelkategorien.",
+      "$ref": "common.schema.json#/$defs/traditionId"
+    },
+    "also_in": {
+      "description": "Sekundäre Einordnungen, wenn eine Tradition in mehrere Kategorien passt (z. B. Hinduismus).",
+      "type": "array",
+      "items": { "$ref": "common.schema.json#/$defs/traditionId" },
+      "uniqueItems": true
+    },
+    "facets": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "theism": {
+          "description": "Gottesverständnis – mehrere Werte erlaubt, weil Traditionen intern variieren.",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["monotheism", "polytheism", "henotheism", "monism", "pantheism", "panentheism", "dualism", "nontheism", "atheism", "agnosticism", "animism"] }
+        },
+        "orientation": {
+          "description": "Nur im Monotheismus sinnvoll: Ausrichtung auf die göttliche Instanz oder auf deren Widersacher.",
+          "enum": ["divine", "adversary"]
+        },
+        "epistemic_basis": {
+          "description": "Worauf stützt sich der Bereich primär?",
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["scripture", "tradition", "reason", "experience", "empirical"] }
+        }
+      }
+    },
+    "external_ids": { "$ref": "common.schema.json#/$defs/externalIds" },
+    "tags": { "$ref": "common.schema.json#/$defs/tags" },
+    "review_status": { "$ref": "common.schema.json#/$defs/reviewStatus" },
+    "superseded_by": { "$ref": "common.schema.json#/$defs/traditionId" }
+  },
+  "if": { "properties": { "kind": { "not": { "const": "category" } } } },
+  "then": { "required": ["parent"] }
+}

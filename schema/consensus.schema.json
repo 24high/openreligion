@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Konsensvorschlag (Konsensschicht)",
+  "description": "Bündelt Aussagen aus mehreren Bereichen zu einem Vorschlag. Der Status (Konsens, umstritten …) wird NICHT hier gepflegt, sondern aus den Stimmen berechnet (dist/tallies.json). Datei: data/consensus/<pfad>.md",
+  "type": "object",
+  "required": ["id", "type", "consensus_type", "question", "proposal", "members", "phase", "review_status"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "pattern": "^consensus:[a-z0-9]+(?:-[a-z0-9]+)*(?:/[a-z0-9]+(?:-[a-z0-9]+)*)*$" },
+    "type": { "const": "consensus" },
+    "consensus_type": {
+      "description": "shared-value = gemeinsamer Wert/Norm; descriptive = gemeinsam akzeptierte Beschreibung; factual = gemeinsam akzeptierter Befund; documented-dissent = Einigkeit darüber, worin man uneinig ist",
+      "enum": ["shared-value", "descriptive", "factual", "documented-dissent"]
+    },
+    "question": { "$ref": "common.schema.json#/$defs/langText" },
+    "proposal": { "$ref": "common.schema.json#/$defs/langText" },
+    "members": {
+      "description": "Aussagen aus den Traditionen, auf die sich der Vorschlag stützt",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "common.schema.json#/$defs/claimId" }
+    },
+    "reservations": {
+      "description": "Dokumentierte Vorbehalte einzelner Traditionen, die den Konsens nicht blockieren, aber zu ihm gehören",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tradition", "note"],
+        "additionalProperties": false,
+        "properties": {
+          "tradition": { "$ref": "common.schema.json#/$defs/traditionId" },
+          "note": { "$ref": "common.schema.json#/$defs/langText" }
+        }
+      }
+    },
+    "phase": {
+      "description": "draft = in Ausarbeitung; open = Abstimmung läuft; frozen = Ergebnis eingefroren (Änderungen nur über neuen Vorschlag)",
+      "enum": ["draft", "open", "frozen"]
+    },
+    "sources": { "$ref": "common.schema.json#/$defs/sources" },
+    "relations": { "$ref": "common.schema.json#/$defs/relations" },
+    "tags": { "$ref": "common.schema.json#/$defs/tags" },
+    "review_status": { "$ref": "common.schema.json#/$defs/reviewStatus" },
+    "superseded_by": { "type": "string", "pattern": "^consensus:" }
+  }
+}

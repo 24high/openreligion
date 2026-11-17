@@ -1,0 +1,51 @@
+name: Validieren
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements.txt
+
+      # Stimmen sind nur dann vertrauenswürdig, wenn jede Person ausschließlich
+      # ihre eigene Datei ändert. Maintainer können mit dem Label
+      # "maintainer-override" eingreifen (z. B. für Demo-Daten oder Löschanträge).
+      - name: Teilnehmerdateien gehören ihren Autor:innen
+        if: github.event_name == 'pull_request' && !contains(github.event.pull_request.labels.*.name, 'maintainer-override')
+        env:
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          bad=0
+          while IFS= read -r f; do
+            [ -z "$f" ] && continue
+            owner="$(basename "$f" .json)"
+            if [ "${owner,,}" != "${AUTHOR,,}" ]; then
+              echo "::error file=$f::$AUTHOR darf nur data/participants/$AUTHOR.json ändern"
+              bad=1
+            fi
+          done < <(git diff --name-only "$BASE"...HEAD -- data/participants/)
+          exit $bad
+
+      - name: Schemas, Verweise, Konsens
+        run: python scripts/build.py --out dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist

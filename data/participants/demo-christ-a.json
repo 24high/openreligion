@@ -1,0 +1,34 @@
+{
+  "$schema": "../../schema/participant.schema.json",
+  "login": "demo-christ-a",
+  "demo": true,
+  "consent": {
+    "public_participation": true,
+    "date": "2026-11-17"
+  },
+  "affiliation": {
+    "tradition": "tradition:monotheism/divine/christianity"
+  },
+  "votes": {
+    "claim:christianity/trinity": {
+      "accuracy": "accurate",
+      "date": "2026-11-17"
+    },
+    "consensus:ethics/golden-rule": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "consensus:theology/nature-of-the-divine": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "interpretation:bible/matt-7-12/equivalent-forms": {
+      "stance": "disagree",
+      "date": "2026-11-17"
+    },
+    "interpretation:bible/matt-7-12/positive-duty": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    }
+  }
+}

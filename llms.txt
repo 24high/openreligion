@@ -1,0 +1,28 @@
+# OpenReligion
+
+> Open dataset for public religious discourse. Claims from religious traditions and science, each attributed to a tradition and perspective, linked to sources, and rated by participants using a bridging-consensus rule (consensus only if every group agrees). Content is mostly German, keys and IDs are English.
+
+Reading rules:
+
+- A `claim` is never a statement of fact by this project. Read it as "According to <tradition> (<perspective>): <statement>". The `framed` field in dist/index.jsonl already does this.
+- Only claims with `epistemic_basis` containing `empirical` carry an `evidence.level`.
+- IDs map to files: `<type>:<path>` -> `data/<type-plural>/<path>.md` (types: tradition, work, claim, interpretation, argument, consensus). Passage refs: `work:<slug>#<locus>`.
+- Consensus status is computed, not authored: see dist/tallies.json (`status`, `bridge_score`, per-group scores).
+- `data/participants/demo-*.json` are fictional demo voters.
+
+## Docs
+
+- [Konzept und Evaluation](docs/konzept.md): architecture options, consensus algorithm, privacy, roadmap
+- [Datenmodell](docs/datenmodell.md): every entity type and field, with examples
+
+## Data
+
+- [Schemas](schema/): JSON Schema 2020-12, authoritative structure
+- [Traditions](data/traditions/): religion layer tree (monotheism/divine, monotheism/adversary, polytheism, other, science)
+- [Claims](data/claims/), [Interpretations](data/interpretations/), [Arguments](data/arguments/), [Consensus proposals](data/consensus/)
+- [Works](data/works/) and [texts](data/texts/): citation schemes, editions, licenses, full-text segments
+
+## Generated (run `python scripts/build.py`)
+
+- dist/index.jsonl: one self-contained record per entity and text segment
+- dist/tallies.json: vote counts, per-group scores and consensus status

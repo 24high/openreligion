@@ -1,0 +1,26 @@
+{
+  "$schema": "../../schema/participant.schema.json",
+  "login": "demo-hindu-b",
+  "demo": true,
+  "consent": {
+    "public_participation": true,
+    "date": "2026-11-17"
+  },
+  "affiliation": {
+    "tradition": "tradition:polytheism/hinduism"
+  },
+  "votes": {
+    "consensus:ethics/golden-rule": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "consensus:theology/nature-of-the-divine": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    },
+    "interpretation:bible/matt-7-12/equivalent-forms": {
+      "stance": "agree",
+      "date": "2026-11-17"
+    }
+  }
+}
